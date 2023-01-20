@@ -53,13 +53,14 @@ exports.signin = async (req, res) => {
         const { email, password } = req.body;
 
         User.findOne({ email }, (err, user) => {
-            if (err) {
+            if (err || !user) {
                 return res.status(400).json({
                     error: "User does not exist",
                 });
             }
 
             // user found
+            console.log(user);
             if (!user.authenticate(password)) {
                 return res.status(400).json({
                     error: "Email and password are not matching",
